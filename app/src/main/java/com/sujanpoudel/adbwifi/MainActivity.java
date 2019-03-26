@@ -16,6 +16,7 @@ import android.preference.PreferenceManager;
 import android.service.quicksettings.TileService;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.text.format.Formatter;
 import android.view.Menu;
@@ -31,6 +32,7 @@ import android.widget.Toast;
 import java.io.IOException;
 
 
+import static com.sujanpoudel.adbwifi.Utils.darkTheme;
 import static com.sujanpoudel.adbwifi.Utils.getIpAndPort;
 import static com.sujanpoudel.adbwifi.Utils.isAdbWifiEnabled;
 import static com.sujanpoudel.adbwifi.Utils.startAdb;
@@ -51,8 +53,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(darkTheme(getApplicationContext())){
+            System.out.println("dark"+darkTheme(getApplicationContext()).toString());
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }else{
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            setupStatusBarTheme();
+        }
+
         setContentView(R.layout.activity_main);
-        setupStatusBarTheme();
+
         Toolbar toolbar = findViewById(R.id.action_bar);
         setSupportActionBar(toolbar);
 
@@ -113,7 +123,6 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         return true;
     }
-
 
     void setupStatusBarTheme() {
         if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 21) {

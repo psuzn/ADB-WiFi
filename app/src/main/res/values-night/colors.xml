@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="normalTextColor">#F6FFFFFF</color>
+    <color name="titleTextColor">#FFFFFF</color>
+    <color name="colorPrimary">#0083BE</color>
+    <color name="colorPrimaryDark">#3F51B5</color>
+    <color name="colorAccent">#FF4901</color>
+    <color name="colorDelete">#b1ff5900</color>
+    <color name="colorAddButton">#8f8884</color>
+    <color name="transparent">#00ffffff</color>
+</resources>

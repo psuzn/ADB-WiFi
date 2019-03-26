@@ -73,5 +73,6 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
-    <string name="key_port">port</string>s
+    <string name="key_port">port</string>
+    <string name="key_dark_theme">darkTheme</string>
 </resources>

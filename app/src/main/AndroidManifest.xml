@@ -13,13 +13,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/appThemeWhite"
+        android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <receiver
 
-            android:exported="false"
-            android:name=".MainActivity$UpdateBroadcastReceiver">
-            <intent-filter >
+            android:name=".MainActivity$UpdateBroadcastReceiver"
+            android:exported="false">
+            <intent-filter>
                 <action android:name="com.sujanpoudel.adbwifi.UPDATE_ACTION" />
             </intent-filter>
         </receiver>
@@ -40,8 +40,7 @@
 
         <activity
             android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:theme="@style/appThemeWhite" />
+            android:label="@string/title_activity_settings" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

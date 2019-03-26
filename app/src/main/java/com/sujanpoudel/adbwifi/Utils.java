@@ -23,7 +23,10 @@ class Utils {
     private static final String TAG = "Uils adb wifis";
     private static String DEFAULT_PORT = "5555";
 
-
+    static Boolean darkTheme(Context context){
+        return PreferenceManager.getDefaultSharedPreferences(Objects.requireNonNull(context.getApplicationContext())).
+                getBoolean(context.getString(R.string.key_dark_theme), false);
+    }
     static String getPort(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(Objects.requireNonNull(context.getApplicationContext())).
                 getString(context.getString(R.string.key_port), DEFAULT_PORT);

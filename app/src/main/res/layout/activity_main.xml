@@ -20,8 +20,8 @@
             android:id="@+id/action_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/appThemeWhite"
-            app:popupTheme="@style/appThemeWhite"
+            android:theme="@style/AppTheme"
+            app:popupTheme="@style/AppTheme"
             app:title="@string/app_name"
             app:titleMargin="0dp"
             app:titleTextAppearance="@style/TitleBarTextAppearance" />
