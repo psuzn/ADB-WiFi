@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts">
+        <item>@font/cutive_mono</item>
+        <item>@font/roboto</item>
+        <item>@font/roboto_medium</item>
+    </array>
+</resources>

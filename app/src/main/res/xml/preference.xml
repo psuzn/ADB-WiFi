@@ -1,0 +1,22 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="dark"
+        android:summary="Enable dark theme"
+        android:title="Dark Theme"
+        app:iconSpaceReserved="false" />
+
+    <EditTextPreference
+        android:defaultValue="5555"
+        android:dialogMessage="Enter port value 1024 to 65535 "
+        android:digits="0123456789"
+        android:inputType="numberDecimal"
+        android:key="@string/key_port"
+        android:summary="default port is 5555"
+        android:title="TCP port"
+        app:iconSpaceReserved="false" />
+
+
+</PreferenceScreen>
