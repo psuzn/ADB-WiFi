@@ -20,7 +20,7 @@
     </style>
 
     <style name="TitleBarTextAppearance" parent="android:TextAppearance">
-        <item name="android:textSize">23sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@android:color/darker_gray</item>
     </style>
