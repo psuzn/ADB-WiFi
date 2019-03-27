@@ -50,12 +50,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(darkTheme(getApplicationContext())){
+        if (darkTheme(getApplicationContext())) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            setupDarkStatusBar();
-        }else{
+            Utils.setupDarkStatusBar(this);
+        } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            setupWhiteStatusBar();
+            Utils.setupWhiteStatusBar(this);
         }
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.action_bar);
@@ -66,14 +66,19 @@ public class MainActivity extends AppCompatActivity {
         runText = findViewById(R.id.run_text);
         IPText = findViewById(R.id.ip_text);
         runSwitch.setOnCheckedChangeListener(onCheckedChangeListener);
-        new Handler().postDelayed(postDelayedRunnable,300);
+        new Handler().postDelayed(postDelayedRunnable, 300);
 
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == R.id.settings) {
             Intent i = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(i);
+            return true;
+        } else if (item.getItemId() == R.id.about_me) {
+            Intent i = new Intent(MainActivity.this, AboutMeActivity.class);
             startActivity(i);
             return true;
         }
@@ -86,58 +91,15 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    void setupDarkStatusBar() {
-        if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 21) {
-            setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, true);
-        }
-        if (Build.VERSION.SDK_INT >= 19) {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        }
-        //make fully Android Transparent Status bar
-        if (Build.VERSION.SDK_INT >= 21) {
-            setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, true);
-            setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, true);
-            getWindow().setStatusBarColor(0x00000000);
-            getWindow().setNavigationBarColor(0x00000000);
-        }
-    }
-
-    void setupWhiteStatusBar() {
-        if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 21) {
-            setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, true);
-        }
-        if (Build.VERSION.SDK_INT >= 19) {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        }
-        //make fully Android Transparent Status bar
-        if (Build.VERSION.SDK_INT >= 21) {
-            setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION, false);
-            setWindowFlag(this, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false);
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
-            getWindow().setStatusBarColor(0x00000000);
-            getWindow().setNavigationBarColor(0x00000000);
-        }
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
-        if(SettingsActivity.SettingFragment.shouldRecreateMainActivity){
+        if (SettingsActivity.SettingFragment.shouldRecreateMainActivity) {
             SettingsActivity.SettingFragment.shouldRecreateMainActivity = false;
             recreate();
         }
     }
 
-    void setWindowFlag(Activity activity, final int bits, boolean on) {
-        Window win = activity.getWindow();
-        WindowManager.LayoutParams winParams = win.getAttributes();
-        if (on) {
-            winParams.flags |= bits;
-        } else {
-            winParams.flags &= ~bits;
-        }
-        win.setAttributes(winParams);
-    }
     void onAdbWifiSuccess() {
         runText.setText(runTextSuccess);
         runSwitch.setChecked(true);
@@ -146,12 +108,14 @@ public class MainActivity extends AppCompatActivity {
         runText.setVisibility(View.VISIBLE);
         IPText.setVisibility(View.VISIBLE);
     }
+
     void onAdbWifiFailed(String error) {
         runText.setText(error);
         runText.setTextColor(Color.RED);
         runText.setVisibility(View.VISIBLE);
         IPText.setVisibility(View.GONE);
     }
+
     void onAdbWifiStop() {
         runText.setVisibility(View.GONE);
         IPText.setVisibility(View.GONE);
@@ -220,11 +184,11 @@ public class MainActivity extends AppCompatActivity {
         public void onReceive(Context context, Intent intent) {
             Toast.makeText(getApplicationContext(), "Received", Toast.LENGTH_SHORT);
 
-            if(intent.getIntExtra(Utils.BROADCAST_INT_KEY, -1) == Tile.Status.Enabled)
+            if (intent.getIntExtra(Utils.BROADCAST_INT_KEY, -1) == Tile.Status.Enabled)
                 onAdbWifiSuccess();
-            else if(intent.getIntExtra(Utils.BROADCAST_INT_KEY, -1) == Tile.Status.Disabled)
+            else if (intent.getIntExtra(Utils.BROADCAST_INT_KEY, -1) == Tile.Status.Disabled)
                 onAdbWifiStop();
-            System.out.println("Broadcast Received with int value:"+ intent.getIntExtra(Utils.BROADCAST_INT_KEY, -1));
+            System.out.println("Broadcast Received with int value:" + intent.getIntExtra(Utils.BROADCAST_INT_KEY, -1));
         }
     }
 
