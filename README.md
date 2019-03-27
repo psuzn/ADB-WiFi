@@ -1,7 +1,7 @@
 # ADB-WiFi
 App to enable ADB (Android Debugging Bridge) over wifi.
 
-[![GitHub release](https://img.shields.io/github/release/Naereen/StrapDown.js.svg)](https://GitHub.com/Naereen/StrapDown.js/releases/)
+![GitHub release](https://img.shields.io/github/release/psuzn/ADB-WiFi.svg)
 
 ##### This app works on ROOTED devices only.
 
