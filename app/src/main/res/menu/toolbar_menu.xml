@@ -7,11 +7,6 @@
         app:showAsAction="never"
         />
     <item
-        android:id="@+id/copy_right"
-        android:title="License"
-        app:showAsAction="never"
-        />
-    <item
         android:id="@+id/about"
         android:title="About"
         app:showAsAction="never"
