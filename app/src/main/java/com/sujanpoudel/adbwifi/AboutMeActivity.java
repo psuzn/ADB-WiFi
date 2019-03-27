@@ -1,5 +1,9 @@
 package com.sujanpoudel.adbwifi;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
@@ -38,28 +42,29 @@ public class AboutMeActivity extends AppCompatActivity {
 
     View getAboutView() {
         IntentUtil util = new IntentUtil(this);
+        Bitmap photo = BitmapFactory.decodeResource( getResources() ,R.drawable.me );
+        System.out.println(photo.toString());
         AboutView view = AboutBuilder.with(this)
-                .setPhoto(R.drawable.me)
+                .setPhoto(photo )
                 .setName("Sujan Poudel")
                 .setSubTitle("Game Developer | Android Developer | Web Developer")
                 .setBrief("I am a android developer, fullstack web developer and also game developer available for freelancing as well as fulltime projects. ")
-                .setAppIcon(R.mipmap.ic_launcher_round)
+                .setAppIcon(R.mipmap.ic_launcher)
                 .setAppName(R.string.app_name)
                 .setActionsColumnsCount(4)
-                .addGooglePlayStoreLink("8002078663318221363")
+                .addGooglePlayStoreLink("5547061053835697166")
                 .addGitHubLink("psuzn")
                 .addTwitterLink("psuzn")
                 .addLinkedInLink("psujan")
                 .addEmailLink("psuzzn@gmail.com")
-                .setActionsColumnsCount(3)
-                .addAction(R.mipmap.star, "Rate this app", util.openPlayStoreAppPage(getPackageName()))
-                .addAction(R.mipmap.feedback, "Give Feedback", util.sendEmail("psuzzn@gmail.com", "Feedback for Adb Wifi app", ""))
-                .addShareAction(R.string.app_name)
+                .setActionsColumnsCount(2)
+                .addAction(R.mipmap.star, "Rate", util.openPlayStoreAppPage(getPackageName()))
+                .addAction(R.mipmap.feedback, "Feedback", util.sendEmail("psuzzn@gmail.com", "Feedback for Adb Wifi app", ""))
                 .setVersionNameAsAppSubTitle()
                 .setWrapScrollView(true)
                 .setLinksAnimated(true)
                 .setShowAsCard(true)
-                .setBackgroundColor(getColor(R.color.background))
+                .setBackgroundColor(ContextCompat.getColor(this, R.color.background))
                 .build();
         return view;
     }

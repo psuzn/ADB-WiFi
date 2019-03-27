@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         runSwitch.setOnCheckedChangeListener(onCheckedChangeListener);
         new Handler().postDelayed(postDelayedRunnable, 300);
 
+
     }
 
     @Override
@@ -143,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                findViewById(R.id.info_card).setVisibility(View.VISIBLE);
                 TileService.requestListeningState(getApplicationContext(), new ComponentName(getApplicationContext(), Tile.class));
             }
             IntentFilter intentFilter = new IntentFilter(Utils.BROADCAST_ACTION);

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ADB WIFI</string>
+    <string name="app_name">ADB Wifi</string>
     <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->
