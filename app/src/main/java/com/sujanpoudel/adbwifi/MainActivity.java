@@ -57,46 +57,16 @@ public class MainActivity extends AppCompatActivity {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             setupWhiteStatusBar();
         }
-
         setContentView(R.layout.activity_main);
-
         Toolbar toolbar = findViewById(R.id.action_bar);
         setSupportActionBar(toolbar);
-
         PreferenceManager.setDefaultValues(this, R.xml.preference, false);
+
         runSwitch = findViewById(R.id.run_switch);
         runText = findViewById(R.id.run_text);
         IPText = findViewById(R.id.ip_text);
         runSwitch.setOnCheckedChangeListener(onCheckedChangeListener);
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                if (!eu.chainfire.libsuperuser.Shell.SU.available()) {
-                    runText.setText(runTextFailedNoSuperSu);
-                    return;
-                }
-                try {
-                    Runtime.getRuntime().exec("su");
-                    runText.setVisibility(View.GONE);
-                    runSwitch.setClickable(true);
-                    if (isAdbWifiEnabled()) {
-                        onAdbWifiSuccess();
-                    } else {
-                        onAdbWifiStop();
-                    }
-                } catch (IOException e) {
-                    onAdbWifiFailed(runTextFailedNoSuperSuPermission);
-                    e.printStackTrace();
-                }
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    TileService.requestListeningState(getApplicationContext(), new ComponentName(getApplicationContext(), Tile.class));
-                }
-                IntentFilter intentFilter = new IntentFilter(Utils.BROADCAST_ACTION);
-
-                registerReceiver(new UpdateBroadcastReceiver(), intentFilter);
-
-            }
-        });
+        new Handler().postDelayed(postDelayedRunnable,300);
 
     }
     @Override
@@ -149,6 +119,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(SettingsActivity.SettingFragment.shouldRecreateMainActivity){
+            SettingsActivity.SettingFragment.shouldRecreateMainActivity = false;
+            recreate();
+        }
+    }
+
     void setWindowFlag(Activity activity, final int bits, boolean on) {
         Window win = activity.getWindow();
         WindowManager.LayoutParams winParams = win.getAttributes();
@@ -179,6 +158,35 @@ public class MainActivity extends AppCompatActivity {
         runSwitch.setChecked(false);
     }
 
+    Runnable postDelayedRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (!eu.chainfire.libsuperuser.Shell.SU.available()) {
+                runText.setText(runTextFailedNoSuperSu);
+                return;
+            }
+            try {
+                Runtime.getRuntime().exec("su");
+                runText.setVisibility(View.GONE);
+                runSwitch.setClickable(true);
+                if (isAdbWifiEnabled()) {
+                    onAdbWifiSuccess();
+                } else {
+                    onAdbWifiStop();
+                }
+            } catch (IOException e) {
+                onAdbWifiFailed(runTextFailedNoSuperSuPermission);
+                e.printStackTrace();
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                TileService.requestListeningState(getApplicationContext(), new ComponentName(getApplicationContext(), Tile.class));
+            }
+            IntentFilter intentFilter = new IntentFilter(Utils.BROADCAST_ACTION);
+
+            registerReceiver(new UpdateBroadcastReceiver(), intentFilter);
+
+        }
+    };
     CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
         @SuppressLint("SetTextI18n")
         @Override
