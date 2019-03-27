@@ -7,8 +7,8 @@
         app:showAsAction="never"
         />
     <item
-        android:id="@+id/about"
-        android:title="About"
+        android:id="@+id/about_me"
+        android:title="About Me"
         app:showAsAction="never"
         />
 </menu>

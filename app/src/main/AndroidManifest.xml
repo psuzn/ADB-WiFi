@@ -15,14 +15,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <receiver
+        <activity android:name=".AboutMeActivity"></activity>
 
+        <receiver
             android:name=".MainActivity$UpdateBroadcastReceiver"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.sujanpoudel.adbwifi.UPDATE_ACTION" />
             </intent-filter>
         </receiver>
+
         <service
             android:name=".Tile"
             android:enabled="true"
@@ -33,6 +35,7 @@
             <meta-data
                 android:name="android.service.quicksettings.ACTIVE_TILE"
                 android:value="true" />
+
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
             </intent-filter>
