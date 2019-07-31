@@ -1,7 +1,6 @@
 package com.sujanpoudel.adbwifi;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -9,25 +8,22 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.service.quicksettings.TileService;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatDelegate;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
-
 
 import static com.sujanpoudel.adbwifi.Utils.darkTheme;
 import static com.sujanpoudel.adbwifi.Utils.getIpAndPort;
@@ -46,6 +42,63 @@ public class MainActivity extends AppCompatActivity {
 
     Switch runSwitch;
     TextView runText, IPText;
+    Runnable postDelayedRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (!eu.chainfire.libsuperuser.Shell.SU.available()) {
+                runText.setText(runTextFailedNoSuperSu);
+                return;
+            }
+            try {
+                Runtime.getRuntime().exec("su");
+                runText.setVisibility(View.GONE);
+                runSwitch.setClickable(true);
+                if (isAdbWifiEnabled()) {
+                    onAdbWifiSuccess();
+                } else {
+                    onAdbWifiStop();
+                }
+            } catch (IOException e) {
+                onAdbWifiFailed(runTextFailedNoSuperSuPermission);
+                e.printStackTrace();
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                findViewById(R.id.info_card).setVisibility(View.VISIBLE);
+                TileService.requestListeningState(getApplicationContext(), new ComponentName(getApplicationContext(), Tile.class));
+            }
+            IntentFilter intentFilter = new IntentFilter(Utils.BROADCAST_ACTION);
+
+            registerReceiver(new UpdateBroadcastReceiver(), intentFilter);
+
+        }
+    };
+    CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+        @SuppressLint("SetTextI18n")
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if (isChecked) {
+                try {
+                    if (startAdb(getApplicationContext()) == 0)
+                        onAdbWifiSuccess();
+
+                } catch (Exception c) {
+                    c.printStackTrace();
+                    onAdbWifiFailed(runTextFailedUnknownError);
+                }
+            } else {
+                try {
+                    if (stopAdb() == 0)
+                        onAdbWifiStop();
+                } catch (Exception c) {
+                    c.printStackTrace();
+                    onAdbWifiFailed(runTextFailedUnknownError);
+                }
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                TileService.requestListeningState(getApplicationContext(), new ComponentName(getApplicationContext(), Tile.class));
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,64 +175,6 @@ public class MainActivity extends AppCompatActivity {
         IPText.setVisibility(View.GONE);
         runSwitch.setChecked(false);
     }
-
-    Runnable postDelayedRunnable = new Runnable() {
-        @Override
-        public void run() {
-            if (!eu.chainfire.libsuperuser.Shell.SU.available()) {
-                runText.setText(runTextFailedNoSuperSu);
-                return;
-            }
-            try {
-                Runtime.getRuntime().exec("su");
-                runText.setVisibility(View.GONE);
-                runSwitch.setClickable(true);
-                if (isAdbWifiEnabled()) {
-                    onAdbWifiSuccess();
-                } else {
-                    onAdbWifiStop();
-                }
-            } catch (IOException e) {
-                onAdbWifiFailed(runTextFailedNoSuperSuPermission);
-                e.printStackTrace();
-            }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                findViewById(R.id.info_card).setVisibility(View.VISIBLE);
-                TileService.requestListeningState(getApplicationContext(), new ComponentName(getApplicationContext(), Tile.class));
-            }
-            IntentFilter intentFilter = new IntentFilter(Utils.BROADCAST_ACTION);
-
-            registerReceiver(new UpdateBroadcastReceiver(), intentFilter);
-
-        }
-    };
-    CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
-        @SuppressLint("SetTextI18n")
-        @Override
-        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-            if (isChecked) {
-                try {
-                    if (startAdb(getApplicationContext()) == 0)
-                        onAdbWifiSuccess();
-
-                } catch (Exception c) {
-                    c.printStackTrace();
-                    onAdbWifiFailed(runTextFailedUnknownError);
-                }
-            } else {
-                try {
-                    if (stopAdb() == 0)
-                        onAdbWifiStop();
-                } catch (Exception c) {
-                    c.printStackTrace();
-                    onAdbWifiFailed(runTextFailedUnknownError);
-                }
-            }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                TileService.requestListeningState(getApplicationContext(), new ComponentName(getApplicationContext(), Tile.class));
-            }
-        }
-    };
 
     public class UpdateBroadcastReceiver extends BroadcastReceiver {
         @Override

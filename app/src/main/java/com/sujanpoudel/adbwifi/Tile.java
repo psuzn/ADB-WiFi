@@ -5,8 +5,9 @@ import android.content.Intent;
 import android.graphics.drawable.Icon;
 import android.os.Build;
 import android.service.quicksettings.TileService;
-import android.support.annotation.RequiresApi;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
 
 import java.io.IOException;
 
@@ -15,11 +16,6 @@ import static com.sujanpoudel.adbwifi.Utils.isAdbWifiEnabled;
 
 @RequiresApi(api = Build.VERSION_CODES.N)
 public class Tile extends TileService {
-    static class Status {
-        static int Enabled = 1;
-        static int Disabled = 2;
-    }
-
     @Override
     public void onClick() {
         android.service.quicksettings.Tile tile = getQsTile();
@@ -87,10 +83,14 @@ public class Tile extends TileService {
         getQsTile().updateTile();
     }
 
-
     @Override
     public void onStartListening() {
         if (getQsTile() != null)
             onTileAdded();
+    }
+
+    static class Status {
+        static int Enabled = 1;
+        static int Disabled = 2;
     }
 }

@@ -1,25 +1,16 @@
 package com.sujanpoudel.adbwifi;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
+import androidx.preference.Preference;
 
 import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat;
-import com.takisoft.fix.support.v7.preference.EditTextPreference;
-
-import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
-import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceManager;
-import android.support.v7.widget.Toolbar;
-import android.text.InputType;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Toast;
 
 import static com.sujanpoudel.adbwifi.Utils.darkTheme;
 
@@ -33,7 +24,7 @@ public class SettingsActivity extends AppCompatActivity {
             Utils.setupDarkStatusBar(this);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            Utils.setupWhiteStatusBar (this);
+            Utils.setupWhiteStatusBar(this);
         }
         setContentView(R.layout.activity_settings);
         Toolbar toolbar = findViewById(R.id.action_bar);
@@ -47,6 +38,7 @@ public class SettingsActivity extends AppCompatActivity {
         this.finish();
         return true;
     }
+
     public static class SettingFragment extends PreferenceFragmentCompat {
         static boolean shouldRecreateMainActivity = false;
         Preference.OnPreferenceChangeListener portPreferenceChangeListener

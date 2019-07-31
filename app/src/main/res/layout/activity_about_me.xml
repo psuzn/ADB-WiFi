@@ -7,7 +7,7 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         app:cardBackgroundColor="@color/background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/action_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,5 +25,5 @@
             app:title="About Me"
             app:titleMargin="0dp"
             app:titleTextAppearance="@style/TitleBarTextAppearance" />
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 </LinearLayout>

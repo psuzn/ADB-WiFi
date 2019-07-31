@@ -2,15 +2,14 @@ package com.sujanpoudel.adbwifi;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatDelegate;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import com.vansuita.materialabout.builder.AboutBuilder;
 import com.vansuita.materialabout.util.IntentUtil;
@@ -42,10 +41,10 @@ public class AboutMeActivity extends AppCompatActivity {
 
     View getAboutView() {
         IntentUtil util = new IntentUtil(this);
-        Bitmap photo = BitmapFactory.decodeResource( getResources() ,R.drawable.me );
+        Bitmap photo = BitmapFactory.decodeResource(getResources(), R.drawable.me);
         System.out.println(photo.toString());
         AboutView view = AboutBuilder.with(this)
-                .setPhoto(photo )
+                .setPhoto(photo)
                 .setName("Sujan Poudel")
                 .setSubTitle("Game Developer | Android Developer | Web Developer")
                 .setBrief("I am a android developer, fullstack web developer and also game developer available for freelancing as well as fulltime projects. ")

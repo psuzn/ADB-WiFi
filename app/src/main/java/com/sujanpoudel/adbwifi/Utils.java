@@ -4,12 +4,13 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.os.Build;
-import android.support.v7.preference.PreferenceManager;
 import android.text.format.Formatter;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+
+import androidx.preference.PreferenceManager;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -22,16 +23,16 @@ import java.util.Objects;
 import static android.content.Context.WIFI_SERVICE;
 
 class Utils {
-    public static  String BROADCAST_ACTION ="com.sujanpoudel.adbwifi.UPDATE_ACTION";
-    public static  String BROADCAST_INT_KEY = "enable";
-
     private static final String TAG = "Uils adb wifis";
+    public static String BROADCAST_ACTION = "com.sujanpoudel.adbwifi.UPDATE_ACTION";
+    public static String BROADCAST_INT_KEY = "enable";
     private static String DEFAULT_PORT = "5555";
 
-    static Boolean darkTheme(Context context){
+    static Boolean darkTheme(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(Objects.requireNonNull(context.getApplicationContext())).
                 getBoolean(context.getString(R.string.key_dark_theme), false);
     }
+
     static String getPort(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(Objects.requireNonNull(context.getApplicationContext())).
                 getString(context.getString(R.string.key_port), DEFAULT_PORT);
@@ -104,7 +105,7 @@ class Utils {
         return (!port.equals("")) & AdbEnabled.equals("running");
     }
 
-    static  void setupWhiteStatusBar(Activity activity) {
+    static void setupWhiteStatusBar(Activity activity) {
         if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 21) {
             setWindowFlag(activity, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, true);
         }
@@ -137,7 +138,7 @@ class Utils {
         }
     }
 
-    static  void setWindowFlag(Activity activity, final int bits, boolean on) {
+    static void setWindowFlag(Activity activity, final int bits, boolean on) {
         Window win = activity.getWindow();
         WindowManager.LayoutParams winParams = win.getAttributes();
         if (on) {
